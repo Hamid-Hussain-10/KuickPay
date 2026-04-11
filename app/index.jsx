@@ -1,13 +1,5 @@
-import { View } from "react-native";
-import HomeScreen from "../assets/components/HomeScreen.jsx";
+import FirstLogin from "../assets/components/FirstLogin";
+
 export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-      }}
-    >
-      <HomeScreen />
-    </View>
-  );
+  return <FirstLogin />;
 }
