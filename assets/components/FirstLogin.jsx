@@ -10,23 +10,15 @@ import {
 import React, { useState } from "react";
 import CountryPicker from "react-native-country-picker-modal";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-
 import { useRouter } from "expo-router";
-
 
 const FirstLogin = () => {
   const [countryCode, setCountryCode] = useState("PK");
   const [callingCode, setCallingCode] = useState("92");
   const [phone, setPhone] = useState("");
   const [touchId, setTouchId] = useState(true);
-  
-  const router = useRouter();
-  // const isValid = phone.length === 10;
 
-  // const handleContinue = () => {
-  //   const fullNumber = `+${callingCode}${phone}`;
-  //   console.log("Phone:", fullNumber);
-  // };
+  const router = useRouter();
 
   return (
     <View style={styles.root}>
@@ -46,8 +38,9 @@ const FirstLogin = () => {
           <Image source={require("../images/icon1.png")} style={styles.logo} />
           <Text style={styles.text}>kuickpay</Text>
         </View>
-
-        <Text style={styles.text1}>Welcome!</Text>
+        <View>
+          <Text style={styles.text1}>Welcome!</Text>
+        </View>
 
         {/* Content */}
         <View style={styles.signContainer}>
@@ -62,7 +55,7 @@ const FirstLogin = () => {
                 countryCode={countryCode}
                 withFlag
                 withFilter
-                withCallingCode={true}
+                withCallingCode
                 onSelect={(country) => {
                   setCountryCode(country.cca2);
                   setCallingCode(country.callingCode[0]);
@@ -81,16 +74,9 @@ const FirstLogin = () => {
             />
           </View>
 
-          {/* {phone.length > 0 && !isValid && ( */}
-            {/* <Text style={styles.error}>Enter valid 10-digit number</Text> */}
-          {/* )} */}
-
+          {/* Continue Button */}
           <TouchableOpacity
-            style={[
-              styles.button,
-              { backgroundColor: "#2E7DFF"  },
-            ]}
-            // disabled={!isValid}
+            style={[styles.button, { backgroundColor: "#2E7DFF" }]}
             onPress={() => router.replace("/(tabs)/home")}
           >
             <Text style={styles.buttonText}>Continue</Text>
@@ -125,6 +111,7 @@ export default FirstLogin;
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    backgroundColor: "#fff",
   },
 
   bgContainer: {
@@ -140,7 +127,6 @@ const styles = StyleSheet.create({
     right: -50,
     width: 220,
     height: 220,
-    opacity: 1,
   },
 
   bottomLeft: {
@@ -149,7 +135,6 @@ const styles = StyleSheet.create({
     left: -50,
     width: 220,
     height: 220,
-    opacity: 1,
   },
 
   container: {
@@ -172,6 +157,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 28,
     fontWeight: "bold",
+    marginRight: 15,
   },
 
   text1: {
@@ -195,7 +181,6 @@ const styles = StyleSheet.create({
   phoneRow: {
     flexDirection: "row",
     marginTop: 25,
-    paddingVertical: 4,
     width: "100%",
   },
 
@@ -205,7 +190,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F2",
     borderRadius: 16,
     paddingHorizontal: 12,
-    // paddingVertical: 12,
     marginRight: 10,
   },
 
@@ -222,13 +206,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 16,
-  },
-
-  error: {
-    color: "red",
-    marginTop: 8,
-    fontSize: 14,
-    alignSelf: "flex-start",
   },
 
   button: {
