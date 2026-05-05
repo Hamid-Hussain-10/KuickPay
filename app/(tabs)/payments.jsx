@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import React from "react";
-import PaymentTabs from "../../assets/components/PaymentTabs";
+import PaymentTabs from "../components/PaymentTabs";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Payment = () => {

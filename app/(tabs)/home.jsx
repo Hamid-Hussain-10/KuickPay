@@ -8,17 +8,16 @@ import {
   Image,
   FlatList,
 } from "react-native";
+import { useProfile } from "../components/ProfileContext";
 
 import * as ImagePicker from "expo-image-picker";
-import { useState } from "react";
-
 import Tabs from "../components/Tabs";
 import Carousels from "../components/Carousels";
 import MyBills from "../components/MyBills";
 import RecentTransactions from "../components/RecentTransactions";
 
 export default function Home() {
-  const [profileImage, setProfileImage] = useState(null);
+  const { profileImage, setProfileImage } = useProfile();
 
   const sendTestNotification = () => {
     Alert.alert("Notification", "No new notifications");
@@ -34,7 +33,7 @@ export default function Home() {
         "Allow access to gallery to set profile picture"
       );
       return;
-    }
+    };
 
     const result = await ImagePicker.launchImageLibraryAsync({
       allowsEditing: true,

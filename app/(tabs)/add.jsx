@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { View, Text, Pressable, StyleSheet, Image } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { saveBill } from "../../assets/components/Storage";
+import { saveBill } from "../components/Storage";
 
 const Add = () => {
   const [permission, requestPermission] = useCameraPermissions();
