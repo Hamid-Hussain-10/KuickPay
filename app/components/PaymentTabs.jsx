@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getBills } from "../../assets/components/Storage";
+import { getBills } from "../components/Storage";
 
 const STORAGE_KEY = "BILLS_DATA";
 

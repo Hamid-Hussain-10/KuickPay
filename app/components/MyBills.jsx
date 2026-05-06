@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { getBills } from "../../assets/components/Storage";
+import { getBills } from "../components/Storage";
 
 const MyBillsTab = () => {
   const [expandedId, setExpandedId] = useState(null);

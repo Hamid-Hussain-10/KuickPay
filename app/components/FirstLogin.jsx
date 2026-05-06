@@ -6,19 +6,42 @@ import {
   TextInput,
   TouchableOpacity,
   Switch,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useRouter } from "expo-router";
 import CountryPicker from "react-native-country-picker-modal";
+import * as LocalAuthentication from "expo-local-authentication";
 
 const FirstLogin = () => {
   const [countryCode, setCountryCode] = useState("PK");
   const [callingCode, setCallingCode] = useState("92");
   const [phone, setPhone] = useState("");
-  const [touchId, setTouchId] = useState(true);
+  const [touchId, setTouchId] = useState(false);
 
   const router = useRouter();
+
+  const handleBiometricAuth = async () => {
+    const hasHardware = await LocalAuthentication.hasHardwareAsync();
+    const isEnrolled = await LocalAuthentication.isEnrolledAsync();
+
+    if (!hasHardware) {
+      Alert.alert("Error", "Device does not support Fingerprint");
+      return false;
+    }
+
+    if (!isEnrolled) {
+      Alert.alert("Error", "No fingerprint found. Please set it in setting.");
+      return false;
+    }
+
+    const result = await LocalAuthentication.authenticateAsync({
+      promptMessage: "Authentication with fingerprint",
+    });
+
+    return result.success;
+  };
 
   return (
     <View style={styles.root}>
@@ -38,7 +61,10 @@ const FirstLogin = () => {
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.header}>
-          <Image source={require("../../assets/images/icon1.png")} style={styles.logo} />
+          <Image
+            source={require("../../assets/images/icon1.png")}
+            style={styles.logo}
+          />
           <Text style={styles.text}>kuickpay</Text>
         </View>
         <View>
@@ -80,7 +106,7 @@ const FirstLogin = () => {
           {/* Continue Button */}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: "#2E7DFF" }]}
-            onPress={() => router.replace("/(tabs)/home")}
+            onPress={() => router.replace("/home")}
           >
             <Text style={styles.buttonText}>Continue</Text>
           </TouchableOpacity>
@@ -89,18 +115,32 @@ const FirstLogin = () => {
           <View style={styles.touchRow}>
             <View style={styles.touchLeft}>
               <MaterialCommunityIcons
-                name="fingerprint"
+                name={touchId ? "fingerprint" : "fingerprint-off"}
                 size={24}
-                color="#000"
+                color={touchId ? "#2E7DFF" : "#000"}
               />
-              <Text style={styles.touchText}>Login With TouchID</Text>
+              <Text style={styles.touchText}>
+                {touchId ? "TouchID Enabled" : "Login With TouchID"}
+              </Text>
             </View>
 
             <Switch
               value={touchId}
-              onValueChange={setTouchId}
-              trackColor={{ false: "#ccc", true: "#2E7DFF" }}
-              thumbColor="#fff"
+              onValueChange={async (value) => {
+                if (value) {
+                  const success = await handleBiometricAuth();
+
+                  if (success) {
+                    setTouchId(true);
+                    router.replace("/home");
+                  } else {
+                    setTouchId(false);
+                    Alert.alert("Failed", "Authentication failed");
+                  }
+                } else {
+                  setTouchId(false);
+                }
+              }}
             />
           </View>
         </View>
@@ -157,14 +197,14 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 28,
-    fontWeight: "bold",
-    marginRight: 15,
+    fontSize: 30,
+    fontWeight: 600,
+    marginRight: 10,
   },
 
   text1: {
     fontSize: 26,
-    fontWeight: "bold",
+    fontWeight: 300,
     marginTop: 40,
   },
 
@@ -183,16 +223,16 @@ const styles = StyleSheet.create({
   phoneRow: {
     flexDirection: "row",
     marginTop: 25,
-    width: "100%",
+    width: "90%",
   },
 
   codeContainer: {
     flexDirection: "row",
     alignItems: "center",
-    // backgroundColor: "#F2F2F2",
     borderRadius: 16,
     paddingHorizontal: 12,
     marginRight: 10,
+    backgroundColor: "#f0e9e9",
   },
 
   codeText: {
@@ -204,23 +244,23 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     backgroundColor: "#f0e9e9",
-    borderRadius: 16,
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 16,
   },
 
   button: {
-    width: "100%",
+    width: "50%",
     marginTop: 30,
     paddingVertical: 14,
-    borderRadius: 14,
+    borderTopRightRadius: 30,
+    borderBottomRightRadius: 30,
     alignItems: "center",
   },
 
   buttonText: {
     color: "#ffffff",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
   },
 
