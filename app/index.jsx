@@ -1,4 +1,4 @@
-import FirstLogin from "../assets/components/FirstLogin";
+import FirstLogin from "./components/FirstLogin";
 
 export default function Index() {
   return <FirstLogin />;
