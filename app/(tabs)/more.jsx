@@ -6,8 +6,7 @@ const More = () => {
     <View style={styles.container}>
       <Text style={styles.title}>More</Text>
       <Text style={styles.comingSoon}>Coming Soon</Text>
-      <Text style={styles.comingSoon}>Coming Soon</Text>
-      <Text style={styles.comingSoon}>Coming Soon</Text>
+
     </View>
   );
 };
