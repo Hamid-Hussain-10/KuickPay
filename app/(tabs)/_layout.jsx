@@ -193,10 +193,10 @@ const styles = StyleSheet.create({
   },
 
   image: {
-    width: 90,
-    height: 90,
-    marginLeft: 50,
-    marginTop: 40,
+    width: 50,
+    height: 50,
+    marginLeft: 80,
+    marginTop: 50,
     transform: [{ rotate: "18deg" }], 
   },
 });
